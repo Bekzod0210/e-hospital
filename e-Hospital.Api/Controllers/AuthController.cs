@@ -1,0 +1,33 @@
+﻿using e_Hospital.Application.UserCases.Users.Commands;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace e_Hospital.Api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+
+        public AuthController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpPost("User/Register")]
+        public async Task<IActionResult> UserRegister(UserRegisterCommand command)
+        {
+            await _mediator.Send(command);
+            return Ok();
+        }
+
+        [HttpPost("User/Login")]
+        public async Task<IActionResult> UserLogin(UserLoginCommand command)
+        {
+            var token = await _mediator.Send(command);
+            return Ok(token);
+        }
+    }
+}
