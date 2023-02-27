@@ -1,4 +1,6 @@
-﻿namespace e_Hospital.Domain.Entities
+﻿using e_Hospital.Domain.Enums;
+
+namespace e_Hospital.Domain.Entities
 {
     public class User
     {
@@ -12,6 +14,7 @@
 
         public int Id { get; set; }
         public string Name { get; set; }
+        public Gender Gender { get; set; }
         public string UserName { get; set; }
         public string PasswordHash { get; set; }
 
