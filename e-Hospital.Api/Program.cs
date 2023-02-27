@@ -1,6 +1,10 @@
 using e_Hospital.Application;
+using e_Hospital.Application.Abstractions;
 using e_Hospital.Infrastructure;
 using e_Hospital.Infrastructure.Configurations;
+using e_Hospital.Infrastructure.Persistence;
+using InstalmentSystem.Infrastructure.Services;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +18,7 @@ builder.Services.Configure<JWTConfiguration>(builder.Configuration.GetSection(na
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("V1", new OpenApiInfo()

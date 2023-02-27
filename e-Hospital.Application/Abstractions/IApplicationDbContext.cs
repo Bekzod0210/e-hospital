@@ -20,6 +20,7 @@ namespace e_Hospital.Application
         DbSet<Born> Bornes { get; set; }
         DbSet<Died> Dieds { get; set; }
         DbSet<Call> Calls { get; set; }
+        DbSet<Admin> Admins { get; set; }
         DbSet<MedicalExaminationResult> MedicalExaminationResults { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

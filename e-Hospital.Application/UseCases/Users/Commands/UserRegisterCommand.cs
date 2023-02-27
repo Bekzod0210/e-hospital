@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using e_Hospital.Application.Abstractions;
+﻿using e_Hospital.Application.Abstractions;
 using e_Hospital.Application.Exceptions;
 using e_Hospital.Domain.Entities;
+using e_Hospital.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +11,7 @@ namespace e_Hospital.Application.UserCases.Users.Commands
     {
         public string Name { get; set; }
         public string UserName { get; set; }
+        public Gender Gender { get; set; }
         public string Password { get; set; }
     }
 
@@ -36,10 +33,11 @@ namespace e_Hospital.Application.UserCases.Users.Commands
                 throw new RegisterException();
             }
 
-            var user = new User()   
+            var user = new User()
             {
                 UserName = request.UserName,
                 Name = request.UserName,
+                Gender = request.Gender,
                 PasswordHash = _hashService.GetHash(request.Password),
             };
 
