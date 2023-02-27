@@ -1,6 +1,6 @@
-﻿using e_Hospital.Application.UserCases.Users.Commands;
+﻿using e_Hospital.Application.UseCases.Auth.Command;
+using e_Hospital.Application.UserCases.Users.Commands;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace e_Hospital.Api.Controllers
@@ -23,8 +23,8 @@ namespace e_Hospital.Api.Controllers
             return Ok();
         }
 
-        [HttpPost("User/Login")]
-        public async Task<IActionResult> UserLogin(UserLoginCommand command)
+        [HttpPost("Login")]
+        public async Task<IActionResult> UserLogin(LoginCommand command)
         {
             var token = await _mediator.Send(command);
             return Ok(token);
