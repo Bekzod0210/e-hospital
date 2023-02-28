@@ -28,6 +28,7 @@ namespace e_Hospital.Infrastructure.Persistence
         public DbSet<Call> Calls { get; set; }
         public DbSet<MedicalExaminationResult> MedicalExaminationResults { get; set; }
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<Patient> Patients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
