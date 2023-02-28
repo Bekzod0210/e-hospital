@@ -5,7 +5,6 @@
         public Order()
         {
             OrderDetails = new HashSet<OrderDetail>();
-            PharmacyMedicines = new HashSet<PharmacyMedicine>();
         }
 
         public int Id { get; set; }
@@ -16,6 +15,5 @@
 
         public User User { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; }
-        public ICollection<PharmacyMedicine> PharmacyMedicines { get; set; }
     }
 }

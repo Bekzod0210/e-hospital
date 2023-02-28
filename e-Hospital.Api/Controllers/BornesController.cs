@@ -17,6 +17,7 @@ namespace e_Hospital.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "AdminActions")]
         public async Task<IActionResult> AddBornes(BornCommand command)
         {
             await _mediator.Send(command);
