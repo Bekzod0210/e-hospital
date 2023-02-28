@@ -8,12 +8,12 @@
         }
 
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public int PatientId { get; set; }
         public DateTime Date { get; set; }
         public double TotalSum { get; set; }
 
 
-        public User User { get; set; }
+        public Patient Patient { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

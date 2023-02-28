@@ -16,8 +16,8 @@ namespace e_Hospital.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("User/Register")]
-        public async Task<IActionResult> UserRegister(UserRegisterCommand command)
+        [HttpPost("Patient/Register")]
+        public async Task<IActionResult> UserRegister(PatientRegisterCommand command)
         {
             await _mediator.Send(command);
             return Ok();
