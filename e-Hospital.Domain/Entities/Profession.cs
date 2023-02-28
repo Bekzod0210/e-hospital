@@ -5,7 +5,7 @@
         public Profession()
         {
             Employees = new List<Employee>();
-            Queues = new List<Queue>();
+            Queues = new Queue<Queue>();
         }
 
         public int Id { get; set; }
@@ -13,6 +13,6 @@
 
 
         public ICollection<Employee> Employees { get; set; }
-        public ICollection<Queue> Queues { get; set; }
+        public Queue<Queue> Queues { get; set; }
     }
 }
