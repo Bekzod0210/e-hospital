@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace e_Hospital.Domain.Entities
+﻿namespace e_Hospital.Domain.Entities
 {
     public class Patient : User
     {
@@ -13,12 +6,13 @@ namespace e_Hospital.Domain.Entities
         {
             Orders = new HashSet<Order>();
             Queues = new HashSet<Queue>();
+            MedicalExamination = new HashSet<MedicalExaminationResult>();
         }
-        public int MedicalExamationId { get; set; }
+        public int MedicalExaminationId { get; set; }
         public string PhoneNumber { get; set; }
 
         public ICollection<Queue> Queues { get; set; }
         public ICollection<Order> Orders { get; set; }
-        public MedicalExaminationResult MedicalExamination { get; set;}
+        public ICollection<MedicalExaminationResult> MedicalExamination { get; set; }
     }
 }
