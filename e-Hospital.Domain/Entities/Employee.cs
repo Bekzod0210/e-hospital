@@ -1,6 +1,4 @@
-﻿using e_Hospital.Domain.Enums;
-
-namespace e_Hospital.Domain.Entities
+﻿namespace e_Hospital.Domain.Entities
 {
     public class Employee : User
     {

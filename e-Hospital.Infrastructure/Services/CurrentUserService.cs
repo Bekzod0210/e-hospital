@@ -1,6 +1,5 @@
 ﻿using e_Hospital.Application.Abstractions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
 using System.Security.Claims;
 
 namespace InstalmentSystem.Infrastructure.Services
