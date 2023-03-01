@@ -3,10 +3,9 @@
     public class MedicalExaminationResult
     {
         public int Id { get; set; }
-        public int QueueId { get; }
+        public int PatientId { get; set; }
         public string Description { get; set; }
 
-
-        public Queue Queue { get; set; }
+        public Patient Patient { get; set; }
     }
 }

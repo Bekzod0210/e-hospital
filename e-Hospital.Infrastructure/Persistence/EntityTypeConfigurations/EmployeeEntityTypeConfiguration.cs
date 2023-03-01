@@ -8,7 +8,7 @@ namespace e_Hospital.Infrastructure.Persistence.EntityTypeConfigurations
     {
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
-            builder.HasKey(p => p.Id);
+            builder.ToTable("Employee");
 
             builder.Property(p => p.Name)
                 .HasMaxLength(30)

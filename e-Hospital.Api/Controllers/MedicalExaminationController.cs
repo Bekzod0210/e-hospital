@@ -7,18 +7,16 @@ namespace e_Hospital.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BornesController : ControllerBase
+    public class MedicalExaminationController : ControllerBase
     {
         private readonly IMediator _mediator;
-
-        public BornesController(IMediator mediator)
+        public MedicalExaminationController(IMediator mediator)
         {
             _mediator = mediator;
         }
-
         [HttpPost]
         [Authorize(Policy = "AdminActions")]
-        public async Task<IActionResult> AddBornes(BornCommand command)
+        public async Task<IActionResult> Create(CreateMedicalExaminationResultCommand command)
         {
             await _mediator.Send(command);
             return Ok();

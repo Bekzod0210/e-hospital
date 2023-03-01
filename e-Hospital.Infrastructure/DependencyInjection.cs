@@ -23,6 +23,12 @@ namespace e_Hospital.Infrastructure
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "localhost";
+                options.InstanceName = "local";
+            });
+
             services.AddSingleton<IHashService, HashService>();
             services.AddScoped<ITokenService, JWTService>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();

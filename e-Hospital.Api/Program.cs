@@ -1,9 +1,6 @@
 using e_Hospital.Application;
-using e_Hospital.Application.Abstractions;
 using e_Hospital.Infrastructure;
 using e_Hospital.Infrastructure.Configurations;
-using e_Hospital.Infrastructure.Persistence;
-using InstalmentSystem.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 
@@ -64,7 +61,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

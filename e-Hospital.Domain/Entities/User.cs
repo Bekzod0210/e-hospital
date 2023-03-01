@@ -6,8 +6,6 @@ namespace e_Hospital.Domain.Entities
     {
         public User()
         {
-            Orders = new HashSet<Order>();
-            Queues = new HashSet<Queue>();
             Dieds = new HashSet<Died>();
             Borns = new HashSet<Born>();
         }
@@ -18,9 +16,6 @@ namespace e_Hospital.Domain.Entities
         public string UserName { get; set; }
         public string PasswordHash { get; set; }
 
-
-        public ICollection<Order> Orders { get; set; }
-        public ICollection<Queue> Queues { get; set; }
         public ICollection<Died> Dieds { get; set; }
         public ICollection<Born> Borns { get; set; }
     }

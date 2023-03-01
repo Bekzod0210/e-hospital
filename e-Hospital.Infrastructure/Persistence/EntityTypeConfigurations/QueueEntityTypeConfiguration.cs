@@ -10,9 +10,9 @@ namespace e_Hospital.Infrastructure.Persistence.EntityTypeConfigurations
         {
             builder.HasKey(p => p.Id);
 
-            builder.HasOne(x => x.User)
+            builder.HasOne(x => x.Patient)
                 .WithMany(x => x.Queues)
-                .HasForeignKey(x => x.UserId);
+                .HasForeignKey(x => x.PatientId);
 
             builder.HasOne(x => x.Hospital)
                 .WithMany(x => x.Queues)
