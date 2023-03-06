@@ -21,8 +21,8 @@ namespace e_Hospital.Application.UseCases.Admin.Command
         {
             await _context.MedicalExaminationResults.AddAsync(new MedicalExaminationResult()
             {
-            PatientId = request.PatientId,
-            Description = request.Diagnosis
+                PatientId = request.PatientId,
+                Description = request.Diagnosis
             }, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 

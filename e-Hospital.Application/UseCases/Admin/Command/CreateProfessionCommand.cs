@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using e_Hospital.Application.Abstractions;
+﻿using e_Hospital.Application.Abstractions;
 using e_Hospital.Application.Exceptions;
 using e_Hospital.Domain.Entities;
 using MediatR;
@@ -28,7 +22,7 @@ namespace e_Hospital.Application.UseCases.Admin.Command
 
         public async Task<Unit> Handle(CreateProfessionCommand request, CancellationToken cancellationToken)
         {
-            if(await _context.Professions.AnyAsync(x => x.Name == request.Name, cancellationToken))
+            if (await _context.Professions.AnyAsync(x => x.Name == request.Name, cancellationToken))
             {
                 throw new ProfessionExistException();
             }

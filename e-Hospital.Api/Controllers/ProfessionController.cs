@@ -2,7 +2,6 @@
 using e_Hospital.Application.UseCases.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace e_Hospital.Api.Controllers
