@@ -18,6 +18,7 @@ namespace e_Hospital.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "AdminActions")]
         public async Task<IActionResult> Create(CreateHospitalCommand command)
         {
             var response = await _mediator.Send(command);
@@ -25,6 +26,7 @@ namespace e_Hospital.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize(Policy = "AdminActions")]
         public async Task<IActionResult> Update(UpdateHospitalCommand command)
         {
             await _mediator.Send(command);
@@ -56,6 +58,7 @@ namespace e_Hospital.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminActions")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             await _mediator.Send(new DeleteHospitalCommand() { Id = id });
