@@ -2,13 +2,6 @@
 using e_Hospital.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace e_Hospital.Application.UseCases.Admin.Command
 {
@@ -31,8 +24,8 @@ namespace e_Hospital.Application.UseCases.Admin.Command
             {
                 throw new EntityNotFoundException(nameof(medicalExaminationResult));
             }
-           _context.MedicalExaminationResults.Remove(medicalExaminationResult);
-           await _context.SaveChangesAsync(cancellationToken);
+            _context.MedicalExaminationResults.Remove(medicalExaminationResult);
+            await _context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

@@ -1,6 +1,5 @@
 ﻿using e_Hospital.Application.UseCases.Users.Commands;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace e_Hospital.Api.Controllers

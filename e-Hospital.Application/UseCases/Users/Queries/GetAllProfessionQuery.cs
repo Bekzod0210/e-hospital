@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using e_Hospital.Application.Abstractions;
+﻿using e_Hospital.Application.Abstractions;
 using e_Hospital.Application.DTOs;
 using Microsoft.EntityFrameworkCore;
 

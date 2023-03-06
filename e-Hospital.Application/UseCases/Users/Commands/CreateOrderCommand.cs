@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using e_Hospital.Application.Abstractions;
+﻿using e_Hospital.Application.Abstractions;
 using e_Hospital.Application.Exceptions;
 using e_Hospital.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
+using System.Text.Json;
 
 namespace e_Hospital.Application.UseCases.Users.Commands
 {
@@ -35,7 +29,7 @@ namespace e_Hospital.Application.UseCases.Users.Commands
         {
 
             var orderDetailsJson = await _cache.GetStringAsync($"{_currentUserService.UserId}", cancellationToken);
-                
+
             if (string.IsNullOrEmpty(orderDetailsJson))
             {
                 throw new OrderDetailsNotFoundException();

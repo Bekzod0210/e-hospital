@@ -27,20 +27,20 @@ namespace e_Hospital.Api.Controllers
         [HttpPut]
         [Authorize(Policy = "AdminActions")]
         public async Task<IActionResult> Update(UpdateMedicalExaminationResultCommand command)
-        { 
+        {
             await _mediator.Send(command);
             return Ok();
         }
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Get([FromQuery]GetMedicalExaminationResultByIdQuery query)
+        public async Task<IActionResult> Get([FromQuery] GetMedicalExaminationResultByIdQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);
         }
         [HttpDelete]
-        [Authorize(Policy ="AdminActions")]
+        [Authorize(Policy = "AdminActions")]
         public async Task<IActionResult> Delete(DeleteExaminationResultCommand command)
         {
             await _mediator.Send(command);

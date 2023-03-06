@@ -3,12 +3,6 @@ using e_Hospital.Application.DTOs;
 using e_Hospital.Domain.Entities;
 using e_Hospital.Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace e_Hospital.Application.UseCases.Users.Queries
 {
@@ -21,19 +15,19 @@ namespace e_Hospital.Application.UseCases.Users.Queries
         private readonly IApplicationDbContext _context;
         private readonly ICurrentUserService _currentUserService;
 
-        public GetMedicalExaminationResultByIdQueryHandler(IApplicationDbContext context,ICurrentUserService currentUserService)
+        public GetMedicalExaminationResultByIdQueryHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
         {
             _context = context;
             _currentUserService = currentUserService;
         }
         public async Task<MedicalExaminationResultViewModel> Handle(GetMedicalExaminationResultByIdQuery request, CancellationToken cancellationToken)
         {
-            var medicalExaminationResult = await _context.MedicalExaminationResults.FirstOrDefaultAsync(x=> x.Id == request.Id);
-            if(medicalExaminationResult.PatientId != _currentUserService.UserId)
+            var medicalExaminationResult = await _context.MedicalExaminationResults.FirstOrDefaultAsync(x => x.Id == request.Id);
+            if (medicalExaminationResult.PatientId != _currentUserService.UserId)
             {
                 throw new Exception("You can get only your Results");
             }
-            if (medicalExaminationResult == null) 
+            if (medicalExaminationResult == null)
             {
                 throw new EntityNotFoundException(nameof(MedicalExaminationResult));
             }

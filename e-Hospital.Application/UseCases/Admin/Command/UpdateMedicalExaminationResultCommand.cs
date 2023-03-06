@@ -1,5 +1,4 @@
 ﻿using e_Hospital.Application.Abstractions;
-using e_Hospital.Domain.Exceptions;
 using MediatR;
 
 namespace e_Hospital.Application.UseCases.Admin.Command
@@ -22,7 +21,7 @@ namespace e_Hospital.Application.UseCases.Admin.Command
         public async Task<Unit> Handle(UpdateMedicalExaminationResultCommand command, CancellationToken cancellationToken)
         {
             var medicalExaminationResult = _context.MedicalExaminationResults.FirstOrDefault(x => x.Id == command.Id);
-            
+
             if (medicalExaminationResult == null)
             {
                 throw new Exception("MedicalExaminationResult's Id is not valid");
