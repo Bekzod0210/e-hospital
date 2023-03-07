@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using e_Hospital.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using e_Hospital.Infrastructure.Persistence;
 namespace e_Hospital.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230301085256_DeletedQueueInMedicalExaminationResult")]
+    partial class DeletedQueueInMedicalExaminationResult
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,6 +197,8 @@ namespace e_Hospital.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
 
                     b.ToTable("MedicalExaminationResults");
                 });
@@ -380,7 +385,10 @@ namespace e_Hospital.Infrastructure.Migrations
             modelBuilder.Entity("e_Hospital.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
@@ -523,6 +531,17 @@ namespace e_Hospital.Infrastructure.Migrations
                     b.Navigation("Hospital");
                 });
 
+            modelBuilder.Entity("e_Hospital.Domain.Entities.MedicalExaminationResult", b =>
+                {
+                    b.HasOne("e_Hospital.Domain.Entities.Patient", "Patient")
+                        .WithMany("MedicalExamination")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
+                });
+
             modelBuilder.Entity("e_Hospital.Domain.Entities.Order", b =>
                 {
                     b.HasOne("e_Hospital.Domain.Entities.Patient", "Patient")
@@ -627,19 +646,11 @@ namespace e_Hospital.Infrastructure.Migrations
 
             modelBuilder.Entity("e_Hospital.Domain.Entities.Patient", b =>
                 {
-                    b.HasOne("e_Hospital.Domain.Entities.MedicalExaminationResult", "MedicalExamination")
-                        .WithOne("Patient")
-                        .HasForeignKey("e_Hospital.Domain.Entities.Patient", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("e_Hospital.Domain.Entities.User", null)
                         .WithOne()
                         .HasForeignKey("e_Hospital.Domain.Entities.Patient", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("MedicalExamination");
                 });
 
             modelBuilder.Entity("e_Hospital.Domain.Entities.Call", b =>
@@ -658,12 +669,6 @@ namespace e_Hospital.Infrastructure.Migrations
                     b.Navigation("HospitalEmployees");
 
                     b.Navigation("Queues");
-                });
-
-            modelBuilder.Entity("e_Hospital.Domain.Entities.MedicalExaminationResult", b =>
-                {
-                    b.Navigation("Patient")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("e_Hospital.Domain.Entities.Medicine", b =>
@@ -707,6 +712,8 @@ namespace e_Hospital.Infrastructure.Migrations
 
             modelBuilder.Entity("e_Hospital.Domain.Entities.Patient", b =>
                 {
+                    b.Navigation("MedicalExamination");
+
                     b.Navigation("Orders");
 
                     b.Navigation("Queues");

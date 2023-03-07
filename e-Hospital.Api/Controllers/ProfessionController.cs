@@ -8,17 +8,26 @@ namespace e_Hospital.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MedicalExaminationController : ControllerBase
+    public class ProfessionController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public MedicalExaminationController(IMediator mediator)
+
+        public ProfessionController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Get()
+        {
+            var professions = await _mediator.Send(new GetAllProfessionQuery());
+            return Ok(professions);
+        }
+
         [HttpPost]
         [Authorize(Policy = "AdminActions")]
-        public async Task<IActionResult> Create(CreateMedicalExaminationResultCommand command)
+        public async Task<IActionResult> Create(CreateProfessionCommand command)
         {
             await _mediator.Send(command);
             return Ok();
@@ -26,24 +35,17 @@ namespace e_Hospital.Api.Controllers
 
         [HttpPut]
         [Authorize(Policy = "AdminActions")]
-        public async Task<IActionResult> Update(UpdateMedicalExaminationResultCommand command)
+        public async Task<IActionResult> Update(UpdateProfessionCommand command)
         {
             await _mediator.Send(command);
             return Ok();
         }
 
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> Get([FromQuery] GetMedicalExaminationResultByIdQuery query)
-        {
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Authorize(Policy = "AdminActions")]
-        public async Task<IActionResult> Delete(DeleteExaminationResultCommand command)
+        public async Task<IActionResult> Delete(int id)
         {
-            await _mediator.Send(command);
+            await _mediator.Send(new DeleteProfessionCommand() { Id = id });
             return Ok();
         }
     }

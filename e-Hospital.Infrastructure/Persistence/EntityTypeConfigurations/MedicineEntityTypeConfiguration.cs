@@ -12,6 +12,17 @@ namespace e_Hospital.Infrastructure.Persistence.EntityTypeConfigurations
             builder.Property(p => p.Name)
                 .HasMaxLength(30)
                 .IsRequired();
+
+            builder.Property(p => p.CreateDate)
+                .IsRequired()
+                .HasMaxLength(30);
+
+            builder.Property(p => p.EndDate)
+                .IsRequired()
+                .HasMaxLength(30);
+
+            builder.Property(p => p.Status)
+                .IsRequired();
         }
     }
 }
