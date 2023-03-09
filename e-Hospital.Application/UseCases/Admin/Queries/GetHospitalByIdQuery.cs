@@ -19,7 +19,6 @@ namespace e_Hospital.Application.UseCases.Admin.Queries
             _context = context;
         }
 
-
         public async Task<HospitalViewModel> Handle(GetHospitalByIdQuery request, CancellationToken cancellationToken)
         {
             var hospital = await _context.Hospitals.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
@@ -30,7 +29,6 @@ namespace e_Hospital.Application.UseCases.Admin.Queries
             }
 
             return new HospitalViewModel { Name = hospital.Name, PhoneNumber = hospital.PhoneNumber, Address = hospital.Address };
-
         }
     }
 }
