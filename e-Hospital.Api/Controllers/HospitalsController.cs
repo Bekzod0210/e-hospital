@@ -1,5 +1,5 @@
 ﻿using e_Hospital.Application.UseCases.Admin.Command;
-using e_Hospital.Application.UseCases.Admin.Queries;
+using e_Hospital.Application.UseCases.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

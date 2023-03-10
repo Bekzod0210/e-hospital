@@ -3,7 +3,7 @@ using e_Hospital.Application.DTOs;
 using e_Hospital.Application.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
-namespace e_Hospital.Application.UseCases.Admin.Queries
+namespace e_Hospital.Application.UseCases.Users.Queries
 {
     public class GetHospitalByIdQuery : IQuery<HospitalViewModel>
     {
