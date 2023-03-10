@@ -19,5 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\e-Hospital.Domain\e-Hospital.Domain.csproj" />
   </ItemGroup>
-
+	
 </Project>
+ 

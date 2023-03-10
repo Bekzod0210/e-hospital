@@ -4,25 +4,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace e_Hospital.Application.UseCases.Users.Queries
 {
-    public class GetAllProfessionQuery : IQuery<List<ProfessionViewModel>>
+    public class GetAllEmployeesQuery : IQuery<List<EmployeeViewModel>>
     {
     }
 
-    public class GetAllProfessionQueryHandler : IQueryHandler<GetAllProfessionQuery, List<ProfessionViewModel>>
+    public class GetAllEmployeesQueryHandler : IQueryHandler<GetAllEmployeesQuery, List<EmployeeViewModel>>
     {
         private readonly IApplicationDbContext _context;
 
-        public GetAllProfessionQueryHandler(IApplicationDbContext context)
+        public GetAllEmployeesQueryHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<List<ProfessionViewModel>> Handle(GetAllProfessionQuery request, CancellationToken cancellationToken)
+        public async Task<List<EmployeeViewModel>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Professions
-                .Select(x => new ProfessionViewModel()
+            return await _context.Employees
+                .Select(x => new EmployeeViewModel()
                 {
                     Name = x.Name,
+                    PhoneNumber = x.PhoneNumber,
+                    ProfessionId = x.ProfessionId
                 }
                 ).ToListAsync(cancellationToken);
         }

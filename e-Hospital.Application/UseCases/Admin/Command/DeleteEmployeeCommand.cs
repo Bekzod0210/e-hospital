@@ -5,35 +5,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace e_Hospital.Application.UseCases.Admin.Command
 {
-    public class DeleteHospitalCommand : ICommand<Unit>
+    public class DeleteEmployeeCommand : ICommand<Unit>
     {
         public int Id { get; set; }
     }
 
-    public class DeleteHospitalCommandHandler : ICommandHandler<DeleteHospitalCommand, Unit>
+    public class DeleteEmployeeCommandHandler : ICommandHandler<DeleteEmployeeCommand, Unit>
     {
         private readonly IApplicationDbContext _context;
 
-        public DeleteHospitalCommandHandler(IApplicationDbContext context)
+        public DeleteEmployeeCommandHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Unit> Handle(DeleteHospitalCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
         {
-            var hospital = await _context.Hospitals.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var employee = await _context.Hospitals.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            if (hospital == null)
+            if (employee == null)
             {
-                throw new HospitalNotFoundException();
+                throw new EmployeeNotFoundException();
             }
 
-            _context.Hospitals.Remove(hospital);
+            _context.Hospitals.Remove(employee);
             await _context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }
     }
-
-
 }

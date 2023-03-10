@@ -2,10 +2,10 @@
 
 namespace e_Hospital.Application.Exceptions
 {
-    public class HospitalNotFoundException : EntityNotFoundException
+    public class EmployeeNotFoundException : EntityNotFoundException
     {
-        private const string _message = "Hospital";
+        private const string _message = "Employee";
 
-        public HospitalNotFoundException() : base(_message) { }
+        public EmployeeNotFoundException() : base(_message) { }
     }
 }

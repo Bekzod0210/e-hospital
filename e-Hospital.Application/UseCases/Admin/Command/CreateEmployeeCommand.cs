@@ -1,7 +1,9 @@
 ﻿using e_Hospital.Application.Abstractions;
+using e_Hospital.Application.Exceptions;
 using e_Hospital.Domain.Entities;
 using e_Hospital.Domain.Enums;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace e_Hospital.Application.UseCases.Admin.Command
 {
@@ -26,6 +28,11 @@ namespace e_Hospital.Application.UseCases.Admin.Command
         }
         public async Task<Unit> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
         {
+            var employee = await _context.Employees.FirstOrDefaultAsync(x => x.UserName == request.UserName);
+            if (employee != null) 
+            {
+                throw new Exception(nameof(EmployeeExistsException));
+            }
             await _context.Employees.AddAsync(new Employee 
             {
                 Name = request.Name,

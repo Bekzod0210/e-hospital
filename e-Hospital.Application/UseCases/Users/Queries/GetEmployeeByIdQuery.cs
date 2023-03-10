@@ -5,31 +5,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace e_Hospital.Application.UseCases.Users.Queries
 {
-    public class GetHospitalByIdQuery : IQuery<HospitalViewModel>
+    public class GetEmployeeByIdQuery : IQuery<EmployeeViewModel>
     {
         public int Id { get; set; }
     }
 
-    public class GetHospitalByIdQueryHandler : IQueryHandler<GetHospitalByIdQuery, HospitalViewModel>
+    public class GetEmployeeByIdQueryHandler : IQueryHandler<GetEmployeeByIdQuery, EmployeeViewModel>
     {
         private readonly IApplicationDbContext _context;
 
-        public GetHospitalByIdQueryHandler(IApplicationDbContext context)
+        public GetEmployeeByIdQueryHandler(IApplicationDbContext context)
         {
             _context = context;
         }
 
 
-        public async Task<HospitalViewModel> Handle(GetHospitalByIdQuery request, CancellationToken cancellationToken)
+        public async Task<EmployeeViewModel> Handle(GetEmployeeByIdQuery request, CancellationToken cancellationToken)
         {
-            var hospital = await _context.Hospitals.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            if (hospital == null)
+            if (employee == null)
             {
-                throw new HospitalNotFoundException();
+                throw new EmployeeNotFoundException();
             }
 
-            return new HospitalViewModel { Name = hospital.Name, PhoneNumber = hospital.PhoneNumber, Address = hospital.Address };
+            return new EmployeeViewModel { Name = employee.Name, PhoneNumber = employee.PhoneNumber, ProfessionId = employee.ProfessionId};
 
         }
     }

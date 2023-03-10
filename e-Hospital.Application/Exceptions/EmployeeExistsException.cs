@@ -1,9 +1,9 @@
 ﻿namespace e_Hospital.Application.Exceptions
 {
-    public class HospitalExistsException : Exception
+    public class EmployeeExistsException : Exception
     {
-        private const string _message = "Hospital Exists!";
+        private const string _message = "Employee Exists!";
 
-        public HospitalExistsException() : base(_message) { }
+        public EmployeeExistsException() : base(_message) { }
     }
 }

@@ -2,15 +2,12 @@
 
 namespace e_Hospital.Application.DTOs
 {
-    public class HospitalViewModel
+    public class EmployeeViewModel
     {
-        [Required]
         public string? Name { get; set; }
 
-        [Required]
         public string? PhoneNumber { get; set; }
 
-        [Required]
-        public string? Address { get; set; }
+        public int? ProfessionId { get; set; }
     }
 }
