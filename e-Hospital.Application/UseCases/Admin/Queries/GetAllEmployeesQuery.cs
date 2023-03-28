@@ -2,7 +2,7 @@
 using e_Hospital.Application.DTOs;
 using Microsoft.EntityFrameworkCore;
 
-namespace e_Hospital.Application.UseCases.Users.Queries
+namespace e_Hospital.Application.UseCases.Admin.Queries
 {
     public class GetAllEmployeesQuery : IQuery<List<EmployeeViewModel>>
     {

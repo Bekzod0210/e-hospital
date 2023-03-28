@@ -3,7 +3,7 @@ using e_Hospital.Application.DTOs;
 using e_Hospital.Application.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
-namespace e_Hospital.Application.UseCases.Users.Queries
+namespace e_Hospital.Application.UseCases.Admin.Queries
 {
     public class GetHospitalByIdQuery : IQuery<HospitalViewModel>
     {
@@ -19,7 +19,6 @@ namespace e_Hospital.Application.UseCases.Users.Queries
             _context = context;
         }
 
-
         public async Task<HospitalViewModel> Handle(GetHospitalByIdQuery request, CancellationToken cancellationToken)
         {
             var hospital = await _context.Hospitals.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
@@ -30,7 +29,6 @@ namespace e_Hospital.Application.UseCases.Users.Queries
             }
 
             return new HospitalViewModel { Name = hospital.Name, PhoneNumber = hospital.PhoneNumber, Address = hospital.Address };
-
         }
     }
 }

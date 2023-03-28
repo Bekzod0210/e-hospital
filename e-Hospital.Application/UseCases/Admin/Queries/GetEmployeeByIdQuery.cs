@@ -3,7 +3,7 @@ using e_Hospital.Application.DTOs;
 using e_Hospital.Application.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
-namespace e_Hospital.Application.UseCases.Users.Queries
+namespace e_Hospital.Application.UseCases.Admin.Queries
 {
     public class GetEmployeeByIdQuery : IQuery<EmployeeViewModel>
     {
@@ -29,7 +29,7 @@ namespace e_Hospital.Application.UseCases.Users.Queries
                 throw new EmployeeNotFoundException();
             }
 
-            return new EmployeeViewModel { Name = employee.Name, PhoneNumber = employee.PhoneNumber, ProfessionId = employee.ProfessionId};
+            return new EmployeeViewModel { Name = employee.Name, PhoneNumber = employee.PhoneNumber, ProfessionId = employee.ProfessionId };
 
         }
     }
