@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -6,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace e_Hospital.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedEntities : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -47,8 +48,9 @@ namespace e_Hospital.Infrastructure.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", maxLength: 30, nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", maxLength: 30, nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,7 +91,8 @@ namespace e_Hospital.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    Gender = table.Column<int>(type: "integer", nullable: false),
                     UserName = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
                     PasswordHash = table.Column<string>(type: "text", nullable: false)
                 },
@@ -125,22 +128,46 @@ namespace e_Hospital.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employees",
+                name: "PharmacyMedicines",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ProfessionId = table.Column<int>(type: "integer", nullable: false),
-                    Name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    PharmacyId = table.Column<int>(type: "integer", nullable: false),
+                    MedicineId = table.Column<int>(type: "integer", nullable: false),
+                    Price = table.Column<double>(type: "double precision", nullable: false),
+                    Count = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
+                    table.PrimaryKey("PK_PharmacyMedicines", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Employees_Professions_ProfessionId",
-                        column: x => x.ProfessionId,
-                        principalTable: "Professions",
+                        name: "FK_PharmacyMedicines_Medicines_MedicineId",
+                        column: x => x.MedicineId,
+                        principalTable: "Medicines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PharmacyMedicines_Pharmacies_PharmacyId",
+                        column: x => x.PharmacyId,
+                        principalTable: "Pharmacies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Admins",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Admins", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Admins_Users_Id",
+                        column: x => x.Id,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -151,8 +178,9 @@ namespace e_Hospital.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    Gender = table.Column<int>(type: "integer", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     HospitalId = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -201,55 +229,44 @@ namespace e_Hospital.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "Employee",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    TotalSum = table.Column<double>(type: "double precision", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    ProfessionId = table.Column<int>(type: "integer", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.PrimaryKey("PK_Employee", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Employee_Professions_ProfessionId",
+                        column: x => x.ProfessionId,
+                        principalTable: "Professions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Employee_Users_Id",
+                        column: x => x.Id,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Queues",
+                name: "Patients",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    HospitalId = table.Column<int>(type: "integer", nullable: false),
-                    ProfessionId = table.Column<int>(type: "integer", nullable: false),
-                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    MedicalExaminationId = table.Column<int>(type: "integer", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Queues", x => x.Id);
+                    table.PrimaryKey("PK_Patients", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Queues_Hospitals_HospitalId",
-                        column: x => x.HospitalId,
-                        principalTable: "Hospitals",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Queues_Professions_ProfessionId",
-                        column: x => x.ProfessionId,
-                        principalTable: "Professions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Queues_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Patients_Users_Id",
+                        column: x => x.Id,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -268,9 +285,9 @@ namespace e_Hospital.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_HospitalEmployees", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HospitalEmployees_Employees_EmployeeId",
+                        name: "FK_HospitalEmployees_Employee_EmployeeId",
                         column: x => x.EmployeeId,
-                        principalTable: "Employees",
+                        principalTable: "Employee",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -282,55 +299,75 @@ namespace e_Hospital.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PharmacyMedicines",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PharmacyId = table.Column<int>(type: "integer", nullable: false),
-                    MedicineId = table.Column<int>(type: "integer", nullable: false),
-                    Price = table.Column<double>(type: "double precision", nullable: false),
-                    Count = table.Column<int>(type: "integer", nullable: false),
-                    OrderId = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PharmacyMedicines", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PharmacyMedicines_Medicines_MedicineId",
-                        column: x => x.MedicineId,
-                        principalTable: "Medicines",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PharmacyMedicines_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_PharmacyMedicines_Pharmacies_PharmacyId",
-                        column: x => x.PharmacyId,
-                        principalTable: "Pharmacies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MedicalExaminationResults",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    QueueId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    PatientId = table.Column<int>(type: "integer", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MedicalExaminationResults", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MedicalExaminationResults_Queues_QueueId",
-                        column: x => x.QueueId,
-                        principalTable: "Queues",
+                        name: "FK_MedicalExaminationResults_Patients_Id",
+                        column: x => x.Id,
+                        principalTable: "Patients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PatientId = table.Column<int>(type: "integer", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TotalSum = table.Column<double>(type: "double precision", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Queues",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PatientId = table.Column<int>(type: "integer", nullable: false),
+                    HospitalId = table.Column<int>(type: "integer", nullable: false),
+                    ProfessionId = table.Column<int>(type: "integer", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Queues", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Queues_Hospitals_HospitalId",
+                        column: x => x.HospitalId,
+                        principalTable: "Hospitals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Queues_Patients_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Queues_Professions_ProfessionId",
+                        column: x => x.ProfessionId,
+                        principalTable: "Professions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -393,8 +430,8 @@ namespace e_Hospital.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_ProfessionId",
-                table: "Employees",
+                name: "IX_Employee_ProfessionId",
+                table: "Employee",
                 column: "ProfessionId");
 
             migrationBuilder.CreateIndex(
@@ -408,14 +445,9 @@ namespace e_Hospital.Infrastructure.Migrations
                 column: "HospitalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MedicalExaminationResults_QueueId",
-                table: "MedicalExaminationResults",
-                column: "QueueId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_UserId",
+                name: "IX_Orders_PatientId",
                 table: "Orders",
-                column: "UserId");
+                column: "PatientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrdersDetails_OrderId",
@@ -433,11 +465,6 @@ namespace e_Hospital.Infrastructure.Migrations
                 column: "MedicineId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PharmacyMedicines_OrderId",
-                table: "PharmacyMedicines",
-                column: "OrderId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PharmacyMedicines_PharmacyId",
                 table: "PharmacyMedicines",
                 column: "PharmacyId");
@@ -448,14 +475,14 @@ namespace e_Hospital.Infrastructure.Migrations
                 column: "HospitalId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Queues_PatientId",
+                table: "Queues",
+                column: "PatientId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Queues_ProfessionId",
                 table: "Queues",
                 column: "ProfessionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Queues_UserId",
-                table: "Queues",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserName",
@@ -467,6 +494,9 @@ namespace e_Hospital.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Admins");
+
             migrationBuilder.DropTable(
                 name: "Ambulances");
 
@@ -486,13 +516,16 @@ namespace e_Hospital.Infrastructure.Migrations
                 name: "OrdersDetails");
 
             migrationBuilder.DropTable(
+                name: "Queues");
+
+            migrationBuilder.DropTable(
                 name: "Calls");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "Employee");
 
             migrationBuilder.DropTable(
-                name: "Queues");
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "PharmacyMedicines");
@@ -504,10 +537,10 @@ namespace e_Hospital.Infrastructure.Migrations
                 name: "Professions");
 
             migrationBuilder.DropTable(
-                name: "Medicines");
+                name: "Patients");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Medicines");
 
             migrationBuilder.DropTable(
                 name: "Pharmacies");

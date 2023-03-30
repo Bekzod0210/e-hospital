@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using e_Hospital.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using e_Hospital.Infrastructure.Persistence;
 namespace e_Hospital.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230317065154_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -181,10 +184,7 @@ namespace e_Hospital.Infrastructure.Migrations
             modelBuilder.Entity("e_Hospital.Domain.Entities.MedicalExaminationResult", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -207,15 +207,20 @@ namespace e_Hospital.Infrastructure.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreateDate")
+                        .HasMaxLength(30)
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("EndDate")
+                        .HasMaxLength(30)
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -380,7 +385,10 @@ namespace e_Hospital.Infrastructure.Migrations
             modelBuilder.Entity("e_Hospital.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
@@ -442,9 +450,10 @@ namespace e_Hospital.Infrastructure.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Patients", (string)null);
                 });
 
             modelBuilder.Entity("e_Hospital.Domain.Entities.Ambulance", b =>
@@ -521,6 +530,17 @@ namespace e_Hospital.Infrastructure.Migrations
                     b.Navigation("Employee");
 
                     b.Navigation("Hospital");
+                });
+
+            modelBuilder.Entity("e_Hospital.Domain.Entities.MedicalExaminationResult", b =>
+                {
+                    b.HasOne("e_Hospital.Domain.Entities.Patient", "Patient")
+                        .WithOne("MedicalExamination")
+                        .HasForeignKey("e_Hospital.Domain.Entities.MedicalExaminationResult", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("e_Hospital.Domain.Entities.Order", b =>
@@ -627,19 +647,11 @@ namespace e_Hospital.Infrastructure.Migrations
 
             modelBuilder.Entity("e_Hospital.Domain.Entities.Patient", b =>
                 {
-                    b.HasOne("e_Hospital.Domain.Entities.MedicalExaminationResult", "MedicalExamination")
-                        .WithOne("Patient")
-                        .HasForeignKey("e_Hospital.Domain.Entities.Patient", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("e_Hospital.Domain.Entities.User", null)
                         .WithOne()
                         .HasForeignKey("e_Hospital.Domain.Entities.Patient", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("MedicalExamination");
                 });
 
             modelBuilder.Entity("e_Hospital.Domain.Entities.Call", b =>
@@ -658,12 +670,6 @@ namespace e_Hospital.Infrastructure.Migrations
                     b.Navigation("HospitalEmployees");
 
                     b.Navigation("Queues");
-                });
-
-            modelBuilder.Entity("e_Hospital.Domain.Entities.MedicalExaminationResult", b =>
-                {
-                    b.Navigation("Patient")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("e_Hospital.Domain.Entities.Medicine", b =>
@@ -707,6 +713,9 @@ namespace e_Hospital.Infrastructure.Migrations
 
             modelBuilder.Entity("e_Hospital.Domain.Entities.Patient", b =>
                 {
+                    b.Navigation("MedicalExamination")
+                        .IsRequired();
+
                     b.Navigation("Orders");
 
                     b.Navigation("Queues");
