@@ -1,13 +1,11 @@
-﻿using Microsoft.VisualBasic;
-
-namespace e_Hospital.Domain.Entities
+﻿namespace e_Hospital.Domain.Entities
 {
     public class Profession
     {
         public Profession()
         {
             Employees = new List<Employee>();
-            Queues = new HashSet<Queue>();
+            Queues = new Queue<Queue>();
         }
 
         public int Id { get; set; }
@@ -15,6 +13,6 @@ namespace e_Hospital.Domain.Entities
 
 
         public ICollection<Employee> Employees { get; set; }
-        public ICollection<Queue> Queues { get; set; }
+        public Queue<Queue> Queues { get; set; }
     }
 }

@@ -6,12 +6,13 @@
         {
             Orders = new HashSet<Order>();
             Queues = new HashSet<Queue>();
+            MedicalExamination = new HashSet<MedicalExaminationResult>();
         }
         public int MedicalExaminationId { get; set; }
         public string PhoneNumber { get; set; }
 
         public ICollection<Queue> Queues { get; set; }
         public ICollection<Order> Orders { get; set; }
-        public MedicalExaminationResult MedicalExamination { get; set; }
+        public ICollection<MedicalExaminationResult> MedicalExamination { get; set; }
     }
 }

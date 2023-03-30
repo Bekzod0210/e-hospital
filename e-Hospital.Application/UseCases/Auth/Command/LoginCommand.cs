@@ -9,7 +9,7 @@ using System.Security.Claims;
 namespace e_Hospital.Application.UseCases.Auth.Command
 {
     public class LoginCommand : IRequest<string>
-    {
+    {   
         public string UserName { get; set; }
         public string Password { get; set; }
 
