@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using e_Hospital.Application.Abstractions;
+﻿using e_Hospital.Application.Abstractions;
 using e_Hospital.Application.Exceptions;
 using MediatR;
 using Microsoft.Extensions.Caching.Distributed;

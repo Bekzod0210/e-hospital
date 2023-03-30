@@ -1,5 +1,7 @@
 ﻿using e_Hospital.Application.Abstractions;
+using e_Hospital.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace e_Hospital.Application.UseCases.Admin.Command
 {
@@ -17,12 +19,18 @@ namespace e_Hospital.Application.UseCases.Admin.Command
         }
         public async Task<Unit> Handle(CreateMedicalExaminationResultCommand request, CancellationToken cancellationToken)
         {
-            await _context.MedicalExaminationResults.AddAsync(new Domain.Entities.MedicalExaminationResult()
+            await _context.MedicalExaminationResults.AddAsync(new MedicalExaminationResult()
             {
                 PatientId = request.PatientId,
                 Description = request.Diagnosis
             }, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
 
+            var mex = await _context.MedicalExaminationResults.FirstOrDefaultAsync(x => x.PatientId == request.PatientId, cancellationToken);
+
+            var patient = await _context.Patients.FirstOrDefaultAsync(x => x.Id == request.PatientId);
+
+            patient.MedicalExaminationId = mex.Id;
             await _context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
