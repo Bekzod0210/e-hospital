@@ -11,8 +11,8 @@ namespace e_Hospital.Infrastructure.Persistence.EntityTypeConfigurations
             builder.HasKey(p => p.Id);
 
             builder.HasOne(x => x.Patient)
-                .WithOne(x => x.MedicalExamination)
-                .HasForeignKey<MedicalExaminationResult>(x => x.Id);
+                .WithMany(x => x.MedicalExamination)
+                .HasForeignKey(x => x.PatientId);
         }
     }
 }

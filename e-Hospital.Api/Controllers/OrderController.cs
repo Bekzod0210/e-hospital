@@ -1,6 +1,7 @@
 ﻿using e_Hospital.Application.UseCases.Users.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace e_Hospital.Api.Controllers
@@ -23,6 +24,6 @@ namespace e_Hospital.Api.Controllers
             CreateOrderCommand command = new CreateOrderCommand();
             await _mediator.Send(command);
             return Ok();
-        }
+        } 
     }
 }
