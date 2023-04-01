@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace e_Hospital.Application.DTOs
+﻿namespace e_Hospital.Application.DTOs
 {
-    internal class QueueViewModel
+    public class QueueViewModel
     {
+        public int Id { get; set; }
+        public int HospitalId { get; set; }
+        public int ProfessionId { get; set; }
+        public DateTime DateTime { get; set; }
     }
 }
