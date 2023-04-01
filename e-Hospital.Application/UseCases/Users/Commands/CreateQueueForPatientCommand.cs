@@ -1,5 +1,6 @@
 ﻿using e_Hospital.Application.Abstractions;
 using e_Hospital.Domain.Entities;
+using e_Hospital.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +25,7 @@ namespace e_Hospital.Application.UseCases.Users.Commands
 
         public async Task<Unit> Handle(CreateQueueForPatientCommand command, CancellationToken cancellationToken)
         {
-/*            var hospital = await _context.Hospitals.FirstOrDefaultAsync(x => x.Id == command.HospitalId, cancellationToken);
+            var hospital = await _context.Hospitals.FirstOrDefaultAsync(x => x.Id == command.HospitalId, cancellationToken);
 
             if (hospital == null)
             {
@@ -36,7 +37,7 @@ namespace e_Hospital.Application.UseCases.Users.Commands
             if (profession == null)
             {
                 throw new Exception(nameof(EntityNotFoundException));
-            }*/
+            }
             if (command.DateTime < DateTime.UtcNow)
             {
                 throw new Exception("Please choose valid  time for MedicalExamination");

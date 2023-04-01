@@ -46,6 +46,10 @@ namespace e_Hospital.Application.UseCases.Users.Commands
             {
                 throw new Exception(nameof(EntityNotFoundException));
             }
+            if (command.DateTime < DateTime.UtcNow)
+            {
+                throw new Exception("Please choose valid  time for MedicalExamination");
+            }
             var data = await _context.Queues.FirstOrDefaultAsync(x => x.Date == command.DateTime, cancellationToken);
             if (data != null)
             {
